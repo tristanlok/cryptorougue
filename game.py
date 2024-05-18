@@ -2,6 +2,7 @@ import pygame
 import math
 from character.character import Character
 from enemy import enemy, enemyType
+from powerup import powerup, powerupType
 
 # Keybinds
 from pygame.locals import (
@@ -32,7 +33,13 @@ player = Character()
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
 
+# Create a custom event for adding a new enemy
+ADDPOWERUP = pygame.USEREVENT + 1
+pygame.time.set_timer(ADDPOWERUP, 250)
+
 # Sprite Groups
+player = pygame.sprite.Group() # THIS CAN BE REMOVED LATER
+powerups = pygame.sprite.Group()
 enemies = pygame.sprite.Group()
 
 # Game Loop
@@ -74,6 +81,12 @@ while running:
             # Create the new enemy and add it to sprite groups
             new_enemy = enemy(enemyType.shooter)
             enemies.add(new_enemy)            
+
+        # Add powerup
+        elif event.type == ADDPOWERUP:
+            # Create the new enemy and add it to sprite groups
+            new_powerup = powerups(powerupType.health)
+            powerups.add(new_powerup)     
                 
     x_pos += dx
     y_pos += dy      
@@ -86,6 +99,15 @@ while running:
 
     for entity in enemies:
         screen.blit(entity.surf, entity.rect)
+
+    # Draw all sprites
+    for entity in powerups:
+        screen.blit(entity.surf, entity.rect)
+
+    # Check if any enemies have collided with the player
+    # if pygame.sprite.spritecollideany(player, powerups):
+    #     # Add collision things here
+    #     continue
 
     # Flip the display
     pygame.display.flip()
