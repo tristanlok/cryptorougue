@@ -1,6 +1,7 @@
 import pygame
 import math
 from character.character import Character
+from enemy import enemy, enemyType
 
 # Keybinds
 from pygame.locals import (
@@ -27,6 +28,13 @@ gameover = 0
 
 player = Character()
 
+# Create a custom event for adding a new enemy
+ADDENEMY = pygame.USEREVENT + 1
+pygame.time.set_timer(ADDENEMY, 250)
+
+# Sprite Groups
+enemies = pygame.sprite.Group()
+
 # Game Loop
 running = True
 while running:
@@ -50,7 +58,8 @@ while running:
                 dx = 2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
             if event.key == K_LEFT:
                 dx = -2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
-        if event.type == KEYUP:
+
+        elif event.type == KEYUP:
             if event.key == K_DOWN and dy > 0:
                 dy = 0
             if event.key == K_UP and dy < 0:
@@ -59,13 +68,24 @@ while running:
                 dx = 0
             if event.key == K_LEFT and dx < 0:
                 dx = 0
-            
+
+        # Add a new enemy
+        elif event.type == ADDENEMY:
+            # Create the new enemy and add it to sprite groups
+            new_enemy = enemy(enemyType.shooter)
+            enemies.add(new_enemy)            
                 
     x_pos += dx
     y_pos += dy      
     screen.blit(player.surf, (x_pos, y_pos))
     
     pygame.draw.circle(screen, (0, 0, 255), (500, 500), 75)
+
+    # Update enemy position
+    enemies.update()
+
+    for entity in enemies:
+        screen.blit(entity.surf, entity.rect)
 
     # Flip the display
     pygame.display.flip()
