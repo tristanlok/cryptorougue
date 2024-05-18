@@ -1,4 +1,6 @@
 import pygame
+import math
+from character.character import Character
 
 # Keybinds
 from pygame.locals import (
@@ -21,11 +23,17 @@ x_pos = 500
 y_pos = 500
 dx = 0
 dy = 0
+gameover = 0
+
+player = Character()
 
 # Game Loop
 running = True
 while running:
 
+    if gameover == 1:
+        running = 0
+        
     # Fill the background with white
     screen.fill((255, 255, 255))
 
@@ -35,27 +43,29 @@ while running:
             running = False
         if event.type == KEYDOWN:
             if event.key == K_DOWN:
-                dy = 2
+                dy = 2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
             if event.key == K_UP:
-                dy = -2
+                dy = -2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
             if event.key == K_RIGHT:
-                dx = 2
+                dx = 2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
             if event.key == K_LEFT:
-                dx = -2
+                dx = -2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
         if event.type == KEYUP:
-            if event.key == K_DOWN and dy == 2:
+            if event.key == K_DOWN and dy > 0:
                 dy = 0
-            if event.key == K_UP and dy == -2:
+            if event.key == K_UP and dy < 0:
                 dy = 0
-            if event.key == K_RIGHT and dx == 2:
+            if event.key == K_RIGHT and dx > 0:
                 dx = 0
-            if event.key == K_LEFT and dx == -2:
+            if event.key == K_LEFT and dx < 0:
                 dx = 0
             
                 
     x_pos += dx
     y_pos += dy      
-    pygame.draw.circle(screen, (0, 0, 255), (x_pos, y_pos), 75)
+    screen.blit(player.surf, (x_pos, y_pos))
+    
+    pygame.draw.circle(screen, (0, 0, 255), (500, 500), 75)
 
     # Flip the display
     pygame.display.flip()
