@@ -8,6 +8,7 @@ from pygame.locals import (
     K_RIGHT,
     K_ESCAPE,
     KEYDOWN,
+    KEYUP,
     QUIT,
 )
 
@@ -34,16 +35,23 @@ while running:
             running = False
         if event.type == KEYDOWN:
             if event.key == K_DOWN:
-                dy = -2
-            if event.key == K_UP:
                 dy = 2
+            if event.key == K_UP:
+                dy = -2
             if event.key == K_RIGHT:
                 dx = 2
             if event.key == K_LEFT:
                 dx = -2
-        else:
-            dy = 0
-            dx = 0
+        if event.type == KEYUP:
+            if event.key == K_DOWN and dy == 2:
+                dy = 0
+            if event.key == K_UP and dy == -2:
+                dy = 0
+            if event.key == K_RIGHT and dx == 2:
+                dx = 0
+            if event.key == K_LEFT and dx == -2:
+                dx = 0
+            
                 
     x_pos += dx
     y_pos += dy      
