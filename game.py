@@ -35,8 +35,6 @@ gameover = 0
 shoot_dir = 0
 att_delay = 0
 
-player = Character()
-
 # Create a custom event for adding a new enemy
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 250)
@@ -46,9 +44,13 @@ ADDPOWERUP = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDPOWERUP, 250)
 
 # Sprite Groups
-player = pygame.sprite.Group() # THIS CAN BE REMOVED LATER
+all_sprites = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
 enemies = pygame.sprite.Group()
+
+# Create Player object
+player = Character()
+all_sprites.add(player)
 
 # Game Loop
 running = True
@@ -107,13 +109,15 @@ while running:
         elif event.type == ADDENEMY:
             # Create the new enemy and add it to sprite groups
             new_enemy = enemy(enemyType.shooter)
-            enemies.add(new_enemy)            
+            enemies.add(new_enemy)
+            all_sprites.add(new_enemy)         
 
         # Add powerup
         elif event.type == ADDPOWERUP:
             # Create the new enemy and add it to sprite groups
             new_powerup = powerups(powerupType.health)
-            powerups.add(new_powerup)     
+            powerups.add(new_powerup) 
+            all_sprites.add(new_powerup)      
  
     if att_delay == 1:
         attack = Weapon(shoot_dir)
@@ -134,17 +138,14 @@ while running:
     # Update enemy position
     enemies.update()
 
-    for entity in enemies:
-        screen.blit(entity.surf, entity.rect)
-
     # Draw all sprites
-    for entity in powerups:
+    for entity in all_sprites:
         screen.blit(entity.surf, entity.rect)
 
     # Check if any enemies have collided with the player
-    # if pygame.sprite.spritecollideany(player, powerups):
-    #     # Add collision things here
-    #     continue
+    if pygame.sprite.spritecollideany(player, powerups):
+        # Add collision things here
+        continue
 
     # Flip the display
     pygame.display.flip()
