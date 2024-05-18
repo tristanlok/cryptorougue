@@ -117,15 +117,17 @@ while running:
         if event.type == ADDPOWERUP:
             new_powerup = powerup(powerupType.health)
             powerups.add(new_powerup) 
-            all_sprites.add(new_powerup)      
+            all_sprites.add(new_powerup)
  
     if att_delay == 1:
         attack = Weapon(shoot_dir)
         att_delay += 1
-    if att_delay > 1:
+    if att_delay > 1 and att_delay < 60:
         screen.blit(attack.surf, (x_pos + attack.get_offset_x(), y_pos + attack.get_offset_y()))
         att_delay += 1
-        if att_delay >= 60:
+    if att_delay >= 60:
+        att_delay += 1
+        if att_delay >= 240:
             att_delay = 0
 
     x_pos += dx
