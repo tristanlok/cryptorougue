@@ -16,20 +16,39 @@ pygame.init()
 # Display
 screen = pygame.display.set_mode([1920, 1080])
 
-# Run until the user asks to quit
+# Game Loop
 running = True
 while running:
 
-    # Did the user click the window close button?
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    x_pos = 500
+    y_pos = 500
+    dx = 0
+    dy = 0
 
     # Fill the background with white
     screen.fill((255, 255, 255))
 
-    # Draw a solid blue circle in the center
-    pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
+    # Quit game if exit
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == KEYDOWN:
+            if event.key == K_DOWN:
+                dy = -2
+            elif event.key == K_UP:
+                dy = 2
+            else:
+                dy = 0
+            if event.key == K_RIGHT:
+                dx = 2
+            elif event.key == K_LEFT:
+                dx = -2
+            else:
+                dx = 0
+                
+    x_pos += dx
+    y_pos += dy      
+    pygame.draw.circle(screen, (0, 0, 255), (x_pos, y_pos), 75)
 
     # Flip the display
     pygame.display.flip()
