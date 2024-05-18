@@ -15,8 +15,8 @@ class powerupType(Enum):
 class powerup(pygame.sprite.Sprite):
     def __init__(self, type):
         super(powerup, self).__init__()
-        self.surf = pygame.Surface((10, 10))
-        self.surf.fill((0, 256, 0))
+        self.surf = pygame.Surface((20, 20))
+        self.surf.fill((0, 255, 0))
         self.rect = self.surf.get_rect(
             center=(
                 random.randint(0, SCREEN_WIDTH),

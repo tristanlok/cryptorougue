@@ -1,9 +1,11 @@
 import pygame
 import math
-from character.character import Character
-from enemy import enemy, enemyType
-from powerup import powerup, powerupType
-from weapon import Weapon
+
+# Custom Libraries
+from lib.character import Character
+from lib.enemy import enemy, enemyType
+from lib.powerup import powerup, powerupType
+from lib.weapon import Weapon
 
 # Keybinds
 from pygame.locals import (
@@ -106,16 +108,14 @@ while running:
                 dx = 0
 
         # Add a new enemy
-        elif event.type == ADDENEMY:
-            # Create the new enemy and add it to sprite groups
+        if event.type == ADDENEMY:
             new_enemy = enemy(enemyType.shooter)
             enemies.add(new_enemy)
             all_sprites.add(new_enemy)         
 
         # Add powerup
-        elif event.type == ADDPOWERUP:
-            # Create the new enemy and add it to sprite groups
-            new_powerup = powerups(powerupType.health)
+        if event.type == ADDPOWERUP:
+            new_powerup = powerup(powerupType.health)
             powerups.add(new_powerup) 
             all_sprites.add(new_powerup)      
  
@@ -128,7 +128,6 @@ while running:
         if att_delay >= 60:
             att_delay = 0
 
- 
     x_pos += dx
     y_pos += dy      
     screen.blit(player.surf, (x_pos, y_pos))
