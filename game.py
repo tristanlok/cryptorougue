@@ -16,14 +16,14 @@ pygame.init()
 # Display
 screen = pygame.display.set_mode([1920, 1080])
 
+x_pos = 500
+y_pos = 500
+dx = 0
+dy = 0
+
 # Game Loop
 running = True
 while running:
-
-    x_pos = 500
-    y_pos = 500
-    dx = 0
-    dy = 0
 
     # Fill the background with white
     screen.fill((255, 255, 255))
@@ -35,16 +35,15 @@ while running:
         if event.type == KEYDOWN:
             if event.key == K_DOWN:
                 dy = -2
-            elif event.key == K_UP:
+            if event.key == K_UP:
                 dy = 2
-            else:
-                dy = 0
             if event.key == K_RIGHT:
                 dx = 2
-            elif event.key == K_LEFT:
+            if event.key == K_LEFT:
                 dx = -2
-            else:
-                dx = 0
+        else:
+            dy = 0
+            dx = 0
                 
     x_pos += dx
     y_pos += dy      
