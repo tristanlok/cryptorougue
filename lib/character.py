@@ -1,5 +1,8 @@
 from enum import Enum
 import pygame
+import math
+
+from lib.weapon import Weapon
 
 class charType(Enum):
     knight_2 = 0
@@ -12,7 +15,7 @@ class charType(Enum):
     cat_girl = 7
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, type):
+    def __init__(self, type, weapon):
         # Sprite stuff
         super(Character, self).__init__()
         self.surf = pygame.Surface((75, 75))
@@ -49,30 +52,58 @@ class Character(pygame.sprite.Sprite):
         self.__bonus_speed = 10
         self.__bonus_attspeed = 1
         self.__shield = 0
-        
+
+        self.__player_att_delay = 0
+
+        self.__weapon = weapon
+
+    def update(self):
+        # Movement
+        keys = pygame.key.get_pressed()
+            
+        if keys[pygame.K_s]:
+            self.rect.y += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+        if keys[pygame.K_w]:
+            self.rect.y += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+        if keys[pygame.K_d]:
+            self.rect.x += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+        if keys[pygame.K_a]:
+            self.rect.x += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+
+        attack = Weapon(self.get_weapon())
+
         
     def update_health(amount, self):
-        if amount > self.health + self.shield:
+        if amount > self.__health + self.__shield:
             gameover = 0
-        if amount > self.shield:
-            amount -= self.shield
-            self.shield = 0
+        if amount > self.__shield:
+            amount -= self.__shield
+            self.__shield = 0
         else:
-            self.shield -= amount
+            self.__shield -= amount
             amount = 0
-        self.health -= amount
-            
+        self.__health -= amount
+
+    def update_attack_delay(self, int):
+        self.__player_att_delay = int
+
+    def get_attack_delay(self):
+        return self.__player_att_delay
+
+    def get_weapon(self):
+        return self.__weapon
+
     def update_add_damage(amount, self):
-        self.add_damage += amount
+        self.__add_damage += amount
     
     def update_add_damage(amount, self):
-        self.mult_damage *= amount
+        self.__mult_damage *= amount
         
     def update_speed(amount, self):
-        self.bonus_speed += amount
+        self.__bonus_speed += amount
         
     def update_attspeed(amount, self):
-        self.bonus_attspeed += amount
+        self.__bonus_attspeed += amount
         
     def get_health(self):
         return self.__health
