@@ -317,10 +317,24 @@ while running:
             text_surface = my_font.render(str(player.get_health()), False, (0, 0, 0))
             defs.screen.blit(text_surface, (0,0))
 
+            # Check if weapon collides with enemy
+            if defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), enemies):
+                defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), enemies).update_health((player.get_damage() + player.get_add_damage()) * player.get_mult_damage())
+
+            # Check if player collides with enemy
+            if defs.pygame.sprite.spritecollideany(player, enemies):
+                defs.pygame.sprite.spritecollideany(player, enemies).kill()
+                player.update_health(1)
+
             # Check for level up
             if level < player.get_level():
                 level = player.get_level()
                 menu = 4
+
+            # Check for game end
+            if player.get_health() <= 0:
+                player.kill()
+                menu = 5
 
             # Flip the display
             defs.pygame.display.flip()
@@ -374,6 +388,17 @@ while running:
             defs.screen.blit(imgs[1], (875, 350))
             defs.screen.blit(imgs[2], (1250, 350))
             defs.pygame.display.flip()
+        case 5:
+            defs.screen.fill([0, 0, 0])
+            game_over = defs.pygame.image.load("data/menu/game_over.png")
+            defs.screen.blit(game_over, (0,0))
+            defs.pygame.display.flip()
+            for event in defs.pygame.event.get():
+                if event.type == defs.pygame.QUIT:
+                    running = False
+                if event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        menu = 0
             
             
             

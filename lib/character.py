@@ -34,7 +34,7 @@ class Character(pygame.sprite.Sprite):
                 self.__speed = 1
                 self.__attspeed = 1
                 self.__add_damage = 0
-                self.__mult_damage = 0
+                self.__mult_damage = 1
                 self.__bonus_speed = 10
                 self.__bonus_attspeed = 1
                 self.__shield = 0
@@ -48,7 +48,7 @@ class Character(pygame.sprite.Sprite):
                 self.__speed = 1
                 self.__attspeed = 1
                 self.__add_damage = 0
-                self.__mult_damage = 0
+                self.__mult_damage = 1
                 self.__bonus_speed = 10
                 self.__bonus_attspeed = 1
                 self.__shield = 0
@@ -62,7 +62,7 @@ class Character(pygame.sprite.Sprite):
                 self.__speed = 1
                 self.__attspeed = 1
                 self.__add_damage = 0
-                self.__mult_damage = 0
+                self.__mult_damage = 1
                 self.__bonus_speed = 10
                 self.__bonus_attspeed = 1
                 self.__shield = 0
@@ -76,7 +76,7 @@ class Character(pygame.sprite.Sprite):
                 self.__speed = 1
                 self.__attspeed = 1
                 self.__add_damage = 0
-                self.__mult_damage = 0
+                self.__mult_damage = 1
                 self.__bonus_speed = 10
                 self.__bonus_attspeed = 1
                 self.__shield = 0
@@ -90,7 +90,7 @@ class Character(pygame.sprite.Sprite):
                 self.__speed = 3
                 self.__attspeed = 1
                 self.__add_damage = 0
-                self.__mult_damage = 0
+                self.__mult_damage = 1
                 self.__bonus_speed = 10
                 self.__bonus_attspeed = 1
                 self.__shield = 0
@@ -104,7 +104,7 @@ class Character(pygame.sprite.Sprite):
                 self.__speed = 1
                 self.__attspeed = 1
                 self.__add_damage = 0
-                self.__mult_damage = 0
+                self.__mult_damage = 1
                 self.__bonus_speed = 10
                 self.__bonus_attspeed = 1
                 self.__shield = 0
@@ -118,7 +118,7 @@ class Character(pygame.sprite.Sprite):
                 self.__speed = 2
                 self.__attspeed = 1
                 self.__add_damage = 0
-                self.__mult_damage = 0
+                self.__mult_damage = 1
                 self.__bonus_speed = 10
                 self.__bonus_attspeed = 1
                 self.__shield = 0
@@ -132,7 +132,7 @@ class Character(pygame.sprite.Sprite):
                 self.__speed = 3
                 self.__attspeed = 1
                 self.__add_damage = 0
-                self.__mult_damage = 0
+                self.__mult_damage = 1
                 self.__bonus_speed = 10
                 self.__bonus_attspeed = 1
                 self.__shield = 0
@@ -160,7 +160,10 @@ class Character(pygame.sprite.Sprite):
             if self.rect.x < 0:
                 self.rect.x = 0
 
-        attack = Weapon(self.get_weapon(), self.rect.x, self.rect.y)
+        self.attack = Weapon(self.get_weapon(), self.rect.x, self.rect.y)
+
+    def get_weapon_hitbox(self):
+        return self.attack
 
     def update_exp(self, amount):
         self.exp += amount
