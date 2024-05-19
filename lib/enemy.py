@@ -7,27 +7,70 @@ SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1080
 
 class enemyType(Enum):
-    shooter = 0
-    fighter = 1
-    tank = 2
+    monster = 0
+    mage = 1
+    # tank = 2
 
 class enemy(pygame.sprite.Sprite):
     def __init__(self, type):
         super(enemy, self).__init__()
-        self.surf = pygame.Surface((20, 10))
-        self.surf.fill((0, 0, 0))
+        self.type = type
+        self.surf = pygame.Surface((100, 100))
+        self.surf.fill([0, 0, 0])
         self.rect = self.surf.get_rect(
-            center=(
+            center = (
                 random.randint(0, SCREEN_WIDTH),
                 random.randint(0, SCREEN_HEIGHT),
             )
         )
-        self.__x_speed = random.randint(-2, 2)
-        self.__y_speed = random.randint(-2, 2)
+        match type:
+            case enemyType.monster:
+                self.surf = pygame.Surface((100, 100))
+                self.surf.fill((0, 0, 0))
+                self.sprite = pygame.image.load("data/enemy/monster.png")
+                self.rect = self.surf.get_rect(
+                    center=(
+                        random.randint(0, SCREEN_WIDTH),
+                        random.randint(0, SCREEN_HEIGHT),
+                    )
+                )
+                
+                self.__x_speed = 1
+                self.__y_speed = 1
+                self.__health = 3
+            case enemyType.mage:
+                self.surf = pygame.Surface((100, 100))
+                self.surf.fill((0, 0, 0))
+                self.sprite = pygame.image.load("data/enemy/mage.png")
+                self.rect = self.surf.get_rect(
+                    center=(
+                        random.randint(0, SCREEN_WIDTH),
+                        random.randint(0, SCREEN_HEIGHT),
+                    )
+                )
+                
+                self.__x_speed = 0
+                self.__y_speed = 0
+                self.__health = 1
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
-    def update(self):
-        self.rect.move_ip(self.__x_speed, self.__y_speed)
-        if self.rect.right < 0:
+    def update_pos(self):
+        match type:
+            case 0:
+                self.rect.move_ip(self.__x_speed, self.__y_speed)
+                if self.rect.right < 0:
+                    self.kill()
+            case 1:
+                self.rect.move_ip(self.__x_speed, self.__y_speed)
+                if self.rect.right < 0:
+                    self.kill()
+            
+    def update_health(self, amount):
+        if amount > self.__health:
             self.kill()
+        else:
+            self.__health -= amount
+            
+    def get_sprite(self):
+        return self.sprite

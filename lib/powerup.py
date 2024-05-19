@@ -17,9 +17,13 @@ class powerup(pygame.sprite.Sprite):
         super(powerup, self).__init__()
         self.surf = pygame.Surface((20, 20))
         self.surf.fill((0, 255, 0))
+        self.sprite = pygame.image.load("data/pickups/bitcoin.png")
         self.rect = self.surf.get_rect(
             center=(
                 random.randint(0, SCREEN_WIDTH),
                 random.randint(0, SCREEN_HEIGHT),
             )
         )
+        
+    def get_sprite(self):
+        return self.sprite

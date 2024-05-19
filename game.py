@@ -6,7 +6,7 @@ import random
 ctypes.windll.user32.SetProcessDPIAware()
 
 # Custom Libraries
-from lib.character import Character
+from lib.character import Character, charType
 from lib.enemy import enemy, enemyType
 from lib.powerup import powerup, powerupType
 from lib.weapon import Weapon
@@ -229,7 +229,23 @@ while running:
                         menu = 0
                     if event.key == K_SPACE and player_data[hovering] == 1:
                         # Create Player object
-                        player = Character()
+                        match hovering:
+                            case 0:
+                                player = Character(charType.knight_2)
+                            case 1:
+                                player = Character(charType.knight)
+                            case 2:
+                                player = Character(charType.wizard_2)
+                            case 3:
+                                player = Character(charType.wizard)
+                            case 4:
+                                player = Character(charType.elf)
+                            case 5:
+                                player = Character(charType.pirate)
+                            case 6:
+                                player = Character(charType.fairy)
+                            case 7:
+                                player = Character(charType.cat_girl)
                         all_sprites.add(player)
                         menu = 3
             character_select(hovering)
@@ -285,7 +301,7 @@ while running:
 
                 # Add a new enemy
                 if event.type == ADDENEMY:
-                    new_enemy = enemy(enemyType.shooter)
+                    new_enemy = enemy(enemyType.monster)
                     enemies.add(new_enemy)
                     all_sprites.add(new_enemy)         
 
@@ -308,16 +324,18 @@ while running:
 
             x_pos += dx
             y_pos += dy      
-            screen.blit(player.surf, (x_pos, y_pos))
-            
-            pygame.draw.circle(screen, (0, 0, 255), (500, 500), 75)
 
             # Update enemy position
-            enemies.update()
+            for e in enemies:
+                e.update_pos()
 
             # Draw all sprites
             for entity in all_sprites:
                 screen.blit(entity.surf, entity.rect)
+                screen.blit(entity.get_sprite(), entity.rect)
+                
+            # Update player
+            screen.blit(player.get_sprite(), (x_pos, y_pos))
 
             # Check if any enemies have collided with the player
             if pygame.sprite.spritecollideany(player, powerups):
