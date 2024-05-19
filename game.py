@@ -333,7 +333,9 @@ while running:
 
             # Check for game end
             if player.get_health() <= 0:
-                player.kill()
+                # player.kill()
+                for sprite in all_sprites:
+                    sprite.kill()
                 menu = 5
 
             # Flip the display
@@ -399,9 +401,6 @@ while running:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         menu = 0
-            
-            
-            
-                
+
 # Done! Time to quit.
 defs.pygame.quit()
