@@ -13,3 +13,12 @@ def init():
 
     global screen
     screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+
+    # Sprite Groups
+    global all_sprites
+    global powerups
+    global enemies
+
+    all_sprites = pygame.sprite.Group()
+    powerups = pygame.sprite.Group()
+    enemies = pygame.sprite.Group()

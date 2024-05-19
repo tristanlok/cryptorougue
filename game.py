@@ -7,7 +7,7 @@ ctypes.windll.user32.SetProcessDPIAware()
 import lib.defs as defs
 from lib.character import Character, charType
 from lib.enemy import enemy, enemyType
-from lib.powerup import powerup, powerupType
+from lib.powerup import powerup
 
 # Initializes Pygame
 defs.init()
@@ -188,16 +188,7 @@ roll_once = 0
 
 # Create a custom event for adding a new enemy
 ADDENEMY = defs.pygame.USEREVENT + 1
-defs.pygame.time.set_timer(ADDENEMY, 250)
-
-# Create a custom event for adding a new enemy
-ADDPOWERUP = defs.pygame.USEREVENT + 1
-defs.pygame.time.set_timer(ADDPOWERUP, 1000)
-
-# Sprite Groups
-all_sprites = defs.pygame.sprite.Group()
-powerups = defs.pygame.sprite.Group()
-enemies = defs.pygame.sprite.Group()
+defs.pygame.time.set_timer(ADDENEMY, 1000)
 
 player = None
 
@@ -267,7 +258,7 @@ while running:
                                 player = Character(charType.fairy)
                             case 7:
                                 player = Character(charType.cat_girl)
-                        all_sprites.add(player)
+                        defs.all_sprites.add(player)
                         menu = 3
             character_select(hovering)
         case 3:
@@ -285,30 +276,24 @@ while running:
                 # Add a new enemy
                 if event.type == ADDENEMY:
                     new_enemy = enemy(enemyType.monster)
-                    enemies.add(new_enemy)
-                    all_sprites.add(new_enemy)         
-
-                # Add powerup
-                if event.type == ADDPOWERUP:
-                    new_powerup = powerup(powerupType.health)
-                    powerups.add(new_powerup) 
-                    all_sprites.add(new_powerup)
+                    defs.enemies.add(new_enemy)
+                    defs.all_sprites.add(new_enemy)         
 
             # Update enemy position
-            for e in enemies:
+            for e in defs.enemies:
                 e.update_pos(player.rect.x, player.rect.y)
 
             # Move player based off of keystroke
             player.update_pos()
 
             # Draw all sprites
-            for entity in all_sprites:
+            for entity in defs.all_sprites:
                 defs.screen.blit(entity.surf, entity.rect)
                 defs.screen.blit(entity.get_sprite(), entity.rect)
 
             # Check if any enemies have collided with the player
-            if defs.pygame.sprite.spritecollideany(player, powerups):
-                defs.pygame.sprite.spritecollideany(player, powerups).kill()
+            if defs.pygame.sprite.spritecollideany(player, defs.powerups):
+                defs.pygame.sprite.spritecollideany(player, defs.powerups).kill()
                 player.update_exp(1)
 
             # Update Health
@@ -318,12 +303,12 @@ while running:
             defs.screen.blit(text_surface, (0,0))
 
             # Check if weapon collides with enemy
-            if defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), enemies):
-                defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), enemies).update_health((player.get_damage() + player.get_add_damage()) * player.get_mult_damage())
+            if defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), defs.enemies):
+                defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), defs.enemies).update_health((player.get_damage() + player.get_add_damage()) * player.get_mult_damage())
 
             # Check if player collides with enemy
-            if defs.pygame.sprite.spritecollideany(player, enemies):
-                defs.pygame.sprite.spritecollideany(player, enemies).kill()
+            if defs.pygame.sprite.spritecollideany(player, defs.enemies):
+                defs.pygame.sprite.spritecollideany(player, defs.enemies).kill()
                 player.update_health(1)
 
             # Check for level up
@@ -334,7 +319,7 @@ while running:
             # Check for game end
             if player.get_health() <= 0:
                 # player.kill()
-                for sprite in all_sprites:
+                for sprite in defs.all_sprites:
                     sprite.kill()
                 menu = 5
 
