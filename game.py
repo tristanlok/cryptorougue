@@ -4,7 +4,7 @@ import pygame
 from lib.character import Character
 from lib.enemy import enemy, enemyType
 from lib.powerup import powerup, powerupType
-from lib.weapon import Weapon
+#from lib.weapon import Weapon
 
 pygame.init()
 
@@ -53,36 +53,23 @@ enemies = pygame.sprite.Group()
 player = Character()
 all_sprites.add(player)
 
+# Draw reference circle
+pygame.draw.circle(screen, (0, 0, 255), (500, 500), 75)
+
 # Game Loop
 running = True
 while running:
 
+    # Clear Screen
+    screen.fill((255, 255, 255))
+
     if gameover == 1:
         running = 0
-        
-    # Fill the background with white
-    screen.fill((255, 255, 255))
 
     # Quit game if exit
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-        if event.type == KEYDOWN:
-            # Attacking
-            if att_delay == 0:
-                if event.key == K_UP:
-                    shoot_dir = 1
-                    att_delay = 1
-                elif event.key == K_RIGHT:
-                    shoot_dir = 2
-                    att_delay = 1
-                elif event.key == K_DOWN:
-                    shoot_dir = 3
-                    att_delay = 1
-                elif event.key == K_LEFT:
-                    shoot_dir = 4
-                    att_delay = 1
 
         # Add a new enemy
         if event.type == ADDENEMY:
@@ -95,22 +82,9 @@ while running:
             new_powerup = powerup(powerupType.health)
             powerups.add(new_powerup) 
             all_sprites.add(new_powerup)
- 
-    if att_delay == 1:
-        attack = Weapon(shoot_dir)
-        att_delay += 1
-    if att_delay > 1 and att_delay < 60:
-        screen.blit(attack.surf, (x_pos + attack.get_offset_x(), y_pos + attack.get_offset_y()))
-        att_delay += 1
-    if att_delay >= 60:
-        att_delay += 1
-        if att_delay >= 240:
-            att_delay = 0
 
     # Move player based off of keystroke
-    player.Move()
-    
-    pygame.draw.circle(screen, (0, 0, 255), (500, 500), 75)
+    player.update(screen)
 
     # Update enemy position
     enemies.update()

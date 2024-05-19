@@ -2,32 +2,18 @@ from enum import Enum
 import pygame
 import math
 
+from lib.weapon import Weapon
+
 class charType(Enum):
     default = 0
 
-# Keybinds
-from pygame.locals import (
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_w,
-    K_a,
-    K_s,
-    K_d,
-    K_ESCAPE,
-    KEYDOWN,
-    KEYUP,
-    QUIT,
-)
-
 class Character(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, weapon):
         # Sprite stuff
         super(Character, self).__init__()
-        self.surf = pygame.Surface((50, 50))
-        self.surf.fill((0, 0, 0))
-        self.rect = self.surf.get_rect()
+        self.__surf = pygame.Surface((50, 50))
+        self.__surf.fill((0, 0, 0))
+        self.__rect = self.__surf.get_rect()
         
         # Player data
         self.__health = 10
@@ -41,42 +27,57 @@ class Character(pygame.sprite.Sprite):
         self.__bonus_attspeed = 1
         self.__shield = 0
 
-    def Move(self):
+        self.__player_att_delay = 0
+
+        self.__weapon = weapon
+
+    def update(self, screen):
         # Movement
         keys = pygame.key.get_pressed()
             
         if keys[pygame.K_s]:
-            self.rect.y += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+            self.__rect.y += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
         if keys[pygame.K_w]:
-            self.rect.y += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+            self.__rect.y += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
         if keys[pygame.K_d]:
-            self.rect.x += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+            self.__rect.x += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
         if keys[pygame.K_a]:
-            self.rect.x += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+            self.__rect.x += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+
+        attack = Weapon()
 
         
     def update_health(amount, self):
-        if amount > self.health + self.shield:
+        if amount > self.__health + self.__shield:
             gameover = 0
-        if amount > self.shield:
-            amount -= self.shield
-            self.shield = 0
+        if amount > self.__shield:
+            amount -= self.__shield
+            self.__shield = 0
         else:
-            self.shield -= amount
+            self.__shield -= amount
             amount = 0
-        self.health -= amount
-            
+        self.__health -= amount
+
+    def update_attack_delay(self, int):
+        self.__player_att_delay = int
+
+    def get_attack_delay(self):
+        return self.__player_att_delay
+
+    def get_weapon(self):
+        return self.__weapon
+
     def update_add_damage(amount, self):
-        self.add_damage += amount
+        self.__add_damage += amount
     
     def update_add_damage(amount, self):
-        self.mult_damage *= amount
+        self.__mult_damage *= amount
         
     def update_speed(amount, self):
-        self.bonus_speed += amount
+        self.__bonus_speed += amount
         
     def update_attspeed(amount, self):
-        self.bonus_attspeed += amount
+        self.__bonus_attspeed += amount
         
     def get_health(self):
         return self.__health
