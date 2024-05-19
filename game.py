@@ -303,7 +303,7 @@ while running:
 
             # Draw all sprites
             for entity in all_sprites:
-                defs.screen.blit(entity.surf, entity.rect)
+                #defs.screen.blit(entity.surf, entity.rect)
                 defs.screen.blit(entity.get_sprite(), entity.rect)
 
             # Check if any enemies have collided with the player
