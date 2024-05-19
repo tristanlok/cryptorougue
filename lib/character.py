@@ -2,7 +2,7 @@ from enum import Enum
 import pygame
 import math
 
-from lib.weapon import Weapon
+from lib.weapon import Weapon, weaponType
 
 class charType(Enum):
     knight_2 = 0
@@ -15,7 +15,7 @@ class charType(Enum):
     cat_girl = 7
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, type, weapon):
+    def __init__(self, type):
         # Sprite stuff
         super(Character, self).__init__()
         self.surf = pygame.Surface((75, 75))
@@ -25,20 +25,28 @@ class Character(pygame.sprite.Sprite):
         match type:
             case charType.knight_2:
                 self.sprite = pygame.image.load("data/character/knight_2.png")
+                self.__weapon = weaponType.sword
             case charType.knight:
                 self.sprite = pygame.image.load("data/character/knight.png")
+                self.__weapon = weaponType.sword
             case charType.wizard_2:
                 self.sprite = pygame.image.load("data/character/wizard_2.png")
+                self.__weapon = weaponType.magic
             case charType.wizard:
                 self.sprite = pygame.image.load("data/character/wizard.png")
+                self.__weapon = weaponType.magic
             case charType.elf:
                 self.sprite = pygame.image.load("data/character/elf.png")
+                self.__weapon = weaponType.bow
             case charType.pirate:
                 self.sprite = pygame.image.load("data/character/pirate.png")
+                self.__weapon = weaponType.gun
             case charType.fairy:
                 self.sprite = pygame.image.load("data/character/fairy.png")
+                self.__weapon = weaponType.magic
             case charType.cat_girl:
                 self.sprite = pygame.image.load("data/character/cat_girl.png")
+                self.__weapon = weaponType.sword
                 
         
         # Player data
@@ -54,8 +62,6 @@ class Character(pygame.sprite.Sprite):
         self.__shield = 0
 
         self.__player_att_delay = 0
-
-        self.__weapon = weapon
 
     def update(self):
         # Movement

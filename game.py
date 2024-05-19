@@ -8,7 +8,6 @@ import lib.defs as defs
 from lib.character import Character, charType
 from lib.enemy import enemy, enemyType
 from lib.powerup import powerup, powerupType
-from lib.weapon import weaponType
 
 # Initializes Pygame
 defs.init()
@@ -266,7 +265,7 @@ while running:
 
                 # Add a new enemy
                 if event.type == ADDENEMY:
-                    new_enemy = enemy(enemyType.shooter)
+                    new_enemy = enemy(enemyType.monster)
                     enemies.add(new_enemy)
                     all_sprites.add(new_enemy)         
 
