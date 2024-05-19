@@ -287,6 +287,7 @@ while running:
             player.update_pos()
 
             # Draw all sprites
+
             for entity in defs.all_sprites:
                 defs.screen.blit(entity.surf, entity.rect)
                 defs.screen.blit(entity.get_sprite(), entity.rect)

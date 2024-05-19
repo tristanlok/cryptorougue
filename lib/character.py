@@ -146,20 +146,20 @@ class Character(pygame.sprite.Sprite):
             
         if keys[pygame.K_s]:
             self.rect.y += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
-            if self.rect.y > 1080:
-                self.rect.y = 1080
+            if self.rect.y > 1080 + 75:
+                self.rect.y = 0 - 75
         if keys[pygame.K_w]:
             self.rect.y += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
-            if self.rect.y < 0:
-                self.rect.y = 0
+            if self.rect.y < 0 - 75:
+                self.rect.y = 1080 + 75
         if keys[pygame.K_d]:
             self.rect.x += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
-            if self.rect.x > 1920:
-                self.rect.x = 1920
+            if self.rect.x > 1920 + 75:
+                self.rect.x = 0 - 75
         if keys[pygame.K_a]:
             self.rect.x += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
-            if self.rect.x < 0:
-                self.rect.x = 0
+            if self.rect.x < 0 - 75:
+                self.rect.x = 1920 + 75
 
         self.attack = Weapon(self.get_weapon(), self.rect.x, self.rect.y)
 
