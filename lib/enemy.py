@@ -1,6 +1,7 @@
 from enum import Enum
 import pygame
 import random
+import math
 
 import lib.defs as defs
 
@@ -33,8 +34,8 @@ class enemy(pygame.sprite.Sprite):
                     )
                 )
                 
-                self.__x_speed = 1
-                self.__y_speed = 1
+                self.__x_speed = 2
+                self.__y_speed = 2
                 self.__health = 3
             case enemyType.mage:
                 self.surf = pygame.Surface((100, 100))
@@ -53,10 +54,18 @@ class enemy(pygame.sprite.Sprite):
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
-    def update_pos(self):
+    def update_pos(self, x, y):
         match self.type:
             case enemyType.monster:
-                self.rect.move_ip(self.__x_speed, self.__y_speed)
+                if x <= self.rect.x:
+                    dx = -1
+                if x > self.rect.x:
+                    dx = 1
+                if y <= self.rect.y:
+                    dy = -1
+                if y > self.rect.y:
+                    dy = 1
+                self.rect.move_ip(dx, dy)
                 if self.rect.right < 0:
                     self.kill()
             case enemyType.mage:

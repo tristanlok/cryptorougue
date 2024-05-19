@@ -296,7 +296,7 @@ while running:
 
             # Update enemy position
             for e in enemies:
-                e.update_pos()
+                e.update_pos(player.rect.x, player.rect.y)
 
             # Move player based off of keystroke
             player.update_pos()
