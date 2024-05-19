@@ -143,13 +143,29 @@ def gacha(reward):
         
     defs.pygame.display.flip()
 
+def roll_item(item):
+    if item == 1:
+        return defs.pygame.image.load("data/item/sword.png")
+    if item == 2:
+        return defs.pygame.image.load("data/item/shield.png")
+    if item == 3:
+        return defs.pygame.image.load("data/item/potion.png")
+    if item == 4:
+        return defs.pygame.image.load("data/item/boots.png")
+    if item == 5:
+        return defs.pygame.image.load("data/item/gem.png")
+    if item == 6:
+        return defs.pygame.image.load("data/item/heart.png")
+    
+    
+
 # Display
 size = defs.pygame.display.Info()
 
 defs.screen.fill([255, 255, 255])
 
 #[0-7 = character unlock boolean, 8 = currency]
-player_data = [1, 0, 0, 0, 0, 0, 0, 0, 100]
+player_data = [1, 0, 0, 0, 0, 0, 0, 1, 100]
 
 menu = 0
 displayed = 0
@@ -166,6 +182,9 @@ dy = 0
 gameover = 0
 shoot_dir = 0
 att_delay = 0
+
+level = 1
+roll_once = 0
 
 # Create a custom event for adding a new enemy
 ADDENEMY = defs.pygame.USEREVENT + 1
@@ -280,7 +299,7 @@ while running:
                 e.update_pos()
 
             # Move player based off of keystroke
-            player.update()
+            player.update_pos()
 
             # Draw all sprites
             for entity in all_sprites:
@@ -290,9 +309,74 @@ while running:
             # Check if any enemies have collided with the player
             if defs.pygame.sprite.spritecollideany(player, powerups):
                 defs.pygame.sprite.spritecollideany(player, powerups).kill()
+                player.update_exp(1)
+
+            # Update Health
+            defs.pygame.font.init()
+            my_font = defs.pygame.font.SysFont('Comic Sans MS', 30)
+            text_surface = my_font.render(str(player.get_health), False, (0, 0, 0))
+            defs.screen.blit(text_surface, (0,0))
+
+            # Check for level up
+            if level < player.get_level():
+                level = player.get_level()
+                menu = 4
 
             # Flip the display
             defs.pygame.display.flip()
+        case 4:
+            if roll_once == 0:
+                items = [random.randint(1, 6), random.randint(1, 6), random.randint(1, 6)]
+                imgs = [roll_item(items[0]), roll_item(items[1]), roll_item(items[2])]
+                boarder = defs.pygame.image.load("data/champ_select/select_boarder.png")
+                anti_boarder = defs.pygame.image.load("data/item/anti_boarder.png")
+                hovering = 0
+                roll_once += 1
+            
+            for event in defs.pygame.event.get():
+                if event.type == defs.pygame.QUIT:
+                    running = False
+                if event.type == KEYDOWN:
+                    if event.key == K_a and hovering != 0:
+                        hovering -= 1
+                    if event.key == K_d and hovering != 2:
+                        hovering += 1
+                    if event.key == K_SPACE:
+                        match items[hovering]:
+                            case 1:
+                                player.update_add_damage(1)
+                            case 2:
+                                player.set_shield(20)
+                            case 3:
+                                player.update_health(-10)
+                            case 4:
+                                player.update_speed(10000)
+                            case 5:
+                                player_data[8] += 1
+                            case 6:
+                                player.update_max_health(1)
+                        player.add_item(items[hovering])
+                        roll_once = 0
+                        menu = 3
+               
+            if hovering == 0:
+                defs.screen.blit(boarder, (495, 345))
+                defs.screen.blit(anti_boarder, (870, 345))   
+            elif hovering == 1:
+                defs.screen.blit(anti_boarder, (495, 345))
+                defs.screen.blit(boarder, (870, 345))  
+                defs.screen.blit(anti_boarder, (1245, 345)) 
+            else:
+                defs.screen.blit(anti_boarder, (870, 345)) 
+                defs.screen.blit(boarder, (1245, 345))
+                
+            defs.screen.blit(imgs[0], (500, 350))
+            defs.screen.blit(imgs[1], (875, 350))
+            defs.screen.blit(imgs[2], (1250, 350))
+            defs.pygame.display.flip()
+            
+            
+            
                 
 # Done! Time to quit.
 defs.pygame.quit()
