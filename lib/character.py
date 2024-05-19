@@ -11,9 +11,9 @@ class Character(pygame.sprite.Sprite):
     def __init__(self, weapon):
         # Sprite stuff
         super(Character, self).__init__()
-        self.__surf = pygame.Surface((50, 50))
-        self.__surf.fill((0, 0, 0))
-        self.__rect = self.__surf.get_rect()
+        self.surf = pygame.Surface((50, 50))
+        self.surf.fill((0, 0, 0))
+        self.rect = self.surf.get_rect()
         
         # Player data
         self.__health = 10
@@ -31,20 +31,20 @@ class Character(pygame.sprite.Sprite):
 
         self.__weapon = weapon
 
-    def update(self, screen):
+    def update(self):
         # Movement
         keys = pygame.key.get_pressed()
             
         if keys[pygame.K_s]:
-            self.__rect.y += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+            self.rect.y += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
         if keys[pygame.K_w]:
-            self.__rect.y += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+            self.rect.y += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
         if keys[pygame.K_d]:
-            self.__rect.x += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+            self.rect.x += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
         if keys[pygame.K_a]:
-            self.__rect.x += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+            self.rect.x += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
 
-        attack = Weapon()
+        attack = Weapon(self.get_weapon())
 
         
     def update_health(amount, self):
