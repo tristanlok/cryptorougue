@@ -67,7 +67,7 @@ class enemy(pygame.sprite.Sprite):
                     self.kill()
             
     def update_health(self, amount):
-        if amount > self.__health:
+        if amount >= self.__health:
             self.kill()
         else:
             self.__health -= amount
