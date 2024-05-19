@@ -475,6 +475,7 @@ while running:
                 imgs = [roll_item(items[0]), roll_item(items[1]), roll_item(items[2])]
                 boarder = defs.pygame.image.load("data/champ_select/select_boarder.png")
                 anti_boarder = defs.pygame.image.load("data/item/anti_boarder.png")
+                blockchain = defs.pygame.image.load("data/item/blockchain.png")
                 hovering = 0
                 roll_once += 1
             
@@ -518,6 +519,7 @@ while running:
             defs.screen.blit(imgs[0], (500, 350))
             defs.screen.blit(imgs[1], (875, 350))
             defs.screen.blit(imgs[2], (1250, 350))
+            defs.screen.blit(blockchain, (0,0))
             defs.pygame.display.flip()
         case 5:
             defs.screen.fill([0, 0, 0])
