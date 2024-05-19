@@ -1,6 +1,7 @@
 from enum import Enum
 import pygame
 import random
+import math
 
 # Define constants for the screen width and height
 SCREEN_WIDTH = 1920
@@ -55,10 +56,10 @@ class enemy(pygame.sprite.Sprite):
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
-    def update_pos(self):
+    def update_pos(self, x, y):
         match self.type:
             case enemyType.monster:
-                self.rect.move_ip(self.__x_speed, self.__y_speed)
+                self.rect.move_ip(sqrt(x - self.rect.x) * self.__x_speed, (y - self.rect.y) *self.__y_speed)
                 if self.rect.right < 0:
                     self.kill()
             case enemyType.mage:
