@@ -2,9 +2,7 @@ from enum import Enum
 import pygame
 import random
 
-# Define constants for the screen width and height
-SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+import lib.defs as defs
 
 class powerupType(Enum):
     health = 0
@@ -20,8 +18,8 @@ class powerup(pygame.sprite.Sprite):
         self.sprite = pygame.image.load("data/pickups/bitcoin.png")
         self.rect = self.surf.get_rect(
             center=(
-                random.randint(0, SCREEN_WIDTH),
-                random.randint(0, SCREEN_HEIGHT),
+                random.randint(0, defs.SCREEN_WIDTH),
+                random.randint(0, defs.SCREEN_HEIGHT),
             )
         )
         

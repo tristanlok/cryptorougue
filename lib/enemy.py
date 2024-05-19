@@ -2,9 +2,7 @@ from enum import Enum
 import pygame
 import random
 
-# Define constants for the screen width and height
-SCREEN_WIDTH = 1920
-SCREEN_HEIGHT = 1080
+import lib.defs as defs
 
 class enemyType(Enum):
     monster = 0
@@ -19,8 +17,8 @@ class enemy(pygame.sprite.Sprite):
         self.surf.fill([0, 0, 0])
         self.rect = self.surf.get_rect(
             center = (
-                random.randint(0, SCREEN_WIDTH),
-                random.randint(0, SCREEN_HEIGHT),
+                random.randint(0, defs.SCREEN_WIDTH),
+                random.randint(0, defs.SCREEN_HEIGHT),
             )
         )
         match type:
@@ -30,8 +28,8 @@ class enemy(pygame.sprite.Sprite):
                 self.sprite = pygame.image.load("data/enemy/monster.png")
                 self.rect = self.surf.get_rect(
                     center=(
-                        random.randint(0, SCREEN_WIDTH),
-                        random.randint(0, SCREEN_HEIGHT),
+                        random.randint(0, defs.SCREEN_WIDTH),
+                        random.randint(0, defs.SCREEN_HEIGHT),
                     )
                 )
                 
@@ -44,8 +42,8 @@ class enemy(pygame.sprite.Sprite):
                 self.sprite = pygame.image.load("data/enemy/mage.png")
                 self.rect = self.surf.get_rect(
                     center=(
-                        random.randint(0, SCREEN_WIDTH),
-                        random.randint(0, SCREEN_HEIGHT),
+                        random.randint(0, defs.SCREEN_WIDTH),
+                        random.randint(0, defs.SCREEN_HEIGHT),
                     )
                 )
                 

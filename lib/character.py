@@ -3,6 +3,7 @@ import pygame
 import math
 
 from lib.weapon import Weapon, weaponType
+import lib.defs as defs
 
 class charType(Enum):
     knight_2 = 0
@@ -20,7 +21,7 @@ class Character(pygame.sprite.Sprite):
         super(Character, self).__init__()
         self.surf = pygame.Surface((75, 75))
         self.surf.fill((0, 0, 0))
-        self.rect = self.surf.get_rect()
+        self.rect = self.surf.get_rect( center = (defs.SCREEN_WIDTH/2, defs.SCREEN_HEIGHT/2))  # Starting Location
         self.exp = 0
         self.items = []
         self.level = 1
