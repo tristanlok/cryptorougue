@@ -314,7 +314,7 @@ while running:
             # Update Health
             defs.pygame.font.init()
             my_font = defs.pygame.font.SysFont('Comic Sans MS', 30)
-            text_surface = my_font.render(str(player.get_health), False, (0, 0, 0))
+            text_surface = my_font.render(str(player.get_health()), False, (0, 0, 0))
             defs.screen.blit(text_surface, (0,0))
 
             # Check for level up
