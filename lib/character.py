@@ -76,7 +76,7 @@ class Character(pygame.sprite.Sprite):
         if keys[pygame.K_a]:
             self.rect.x += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
 
-        attack = Weapon(self.get_weapon())
+        attack = Weapon(self.get_weapon(), self.rect.x, self.rect.y)
 
         
     def update_health(amount, self):

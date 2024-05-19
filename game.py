@@ -282,16 +282,10 @@ while running:
             # Move player based off of keystroke
             player.update()
 
-            # Update enemy position
-            enemies.update()
-
             # Draw all sprites
             for entity in all_sprites:
                 defs.screen.blit(entity.surf, entity.rect)
                 defs.screen.blit(entity.get_sprite(), entity.rect)
-                
-            # Update player
-            defs.screen.blit(player.get_sprite(), (x_pos, y_pos))
 
             # Check if any enemies have collided with the player
             if defs.pygame.sprite.spritecollideany(player, powerups):
