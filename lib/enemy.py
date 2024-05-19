@@ -57,11 +57,11 @@ class enemy(pygame.sprite.Sprite):
     # Remove the sprite when it passes the left edge of the screen
     def update_pos(self):
         match type:
-            case 0:
+            case enemyType.monster:
                 self.rect.move_ip(self.__x_speed, self.__y_speed)
                 if self.rect.right < 0:
                     self.kill()
-            case 1:
+            case enemyType.mage:
                 self.rect.move_ip(self.__x_speed, self.__y_speed)
                 if self.rect.right < 0:
                     self.kill()
