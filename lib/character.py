@@ -137,7 +137,7 @@ class Character(pygame.sprite.Sprite):
                 self.__bonus_speed = 10
                 self.__bonus_attspeed = 1
                 self.__shield = 0
-                self.__max_health = 10
+                self.__max_health = 1
                 self.__player_att_delay = 0
 
     def update_pos(self):
@@ -181,10 +181,10 @@ class Character(pygame.sprite.Sprite):
     def update_health(self, amount):
         if amount > self.__health + self.__shield:
             gameover = 0
-        if amount > self.__shield:
+        elif amount > self.__shield:
             amount -= self.__shield
             self.__shield = 0
-        else:
+        elif amount > 0:
             self.__shield -= amount
             amount = 0
         self.__health -= amount
@@ -221,8 +221,14 @@ class Character(pygame.sprite.Sprite):
     def get_health(self):
         return self.__health
     
+    def get_shield(self):
+        return self.__shield
+    
     def get_damage(self):
         return self.__damage
+    
+    def get_exp(self):
+        return self.exp
     
     def get_speed(self):
         return self.__speed

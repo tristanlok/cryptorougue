@@ -29,47 +29,54 @@ class Weapon(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect( center = (self.__x + self.__offx, self.__y + self.__offy))
 
         self.__weapon = weapon
+        
+        
 
-        defs.screen.blit(self.surf, self.rect)
+        if self.rect.x != 0 and self.rect.y != 0: 
+            defs.screen.blit(self.trail, self.rect)
 
     def melee_attack(self, x , y):
         keys = pygame.key.get_pressed()
             
         if keys[pygame.K_UP]:
             self.update_size_x(250)
-            self.update_size_y(100)
+            self.update_size_y(150)
 
             self.update_x(x)
             self.update_y(y)
             self.update_offx(35)
             self.update_offy(-10)
+            self.trail = defs.pygame.image.load("data/item/trail_up.png")
 
         if keys[pygame.K_RIGHT]:
-            self.update_size_x(100)
+            self.update_size_x(150)
             self.update_size_y(250)
 
             self.update_x(x)
             self.update_y(y)
-            self.update_offx(self.__size_x/2 + 40)
-            self.update_offy(25)
+            self.update_offx(self.__size_x/2 + 20)
+            self.update_offy(35)
+            self.trail = defs.pygame.image.load("data/item/trail_right.png")
 
         if keys[pygame.K_DOWN]:
             self.update_size_x(250)
-            self.update_size_y(100)
+            self.update_size_y(150)
 
             self.update_x(x)
             self.update_y(y)
             self.update_offx(35)
             self.update_offy(85)
+            self.trail = defs.pygame.image.load("data/item/trail_down.png")
 
         if keys[pygame.K_LEFT]:
-            self.update_size_x(100)
+            self.update_size_x(150)
             self.update_size_y(250)
 
             self.update_x(x)
             self.update_y(y)
             self.update_offx(-10)
-            self.update_offy(25)
+            self.update_offy(35)
+            self.trail = defs.pygame.image.load("data/item/trail_left.png")
 
     def update_size_x(self, int):
         self.__size_x = int

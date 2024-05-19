@@ -165,7 +165,7 @@ size = defs.pygame.display.Info()
 defs.screen.fill([255, 255, 255])
 
 #[0-7 = character unlock boolean, 8 = currency]
-player_data = [1, 0, 0, 0, 0, 0, 0, 1, 100]
+player_data = [1, 0, 0, 0, 0, 0, 0, 0, 100]
 
 menu = 0
 displayed = 0
@@ -182,9 +182,12 @@ dy = 0
 gameover = 0
 shoot_dir = 0
 att_delay = 0
+hit_delay = 0
 
 level = 1
 roll_once = 0
+once = 0
+count = 0
 
 # Create a custom event for adding a new enemy
 ADDENEMY = defs.pygame.USEREVENT + 1
@@ -264,9 +267,9 @@ while running:
         case 3:
             if gameover == 1:
                 running = False
-                
+            
             # Fill the background with white
-            defs.screen.fill((255, 255, 255))
+            defs.screen.fill((10, 100, 30))
 
             # Quit game if exit
             for event in defs.pygame.event.get():
@@ -275,9 +278,134 @@ while running:
 
                 # Add a new enemy
                 if event.type == ADDENEMY:
-                    new_enemy = enemy(enemyType.monster)
-                    defs.enemies.add(new_enemy)
-                    defs.all_sprites.add(new_enemy)         
+                    if count < 10:
+                        new_enemy = enemy(enemyType.monster)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >=10 and count < 20:
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >=20 and count < 25:
+                        new_enemy = enemy(enemyType.monster)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >=25 and count < 35:
+                        new_enemy = enemy(enemyType.snake)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >=35 and count < 40:
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 40 and count < 45:
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 45 and count < 47:
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 50 and count < 51:
+                        new_enemy = enemy(enemyType.dragon)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 60 and count < 70:
+                        new_enemy = enemy(enemyType.monster)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.monster)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.monster)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 70 and count < 80:
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 80 and count < 90:
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 90 and count < 97:
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 100 and count < 103:
+                        new_enemy = enemy(enemyType.dragon)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 120 and count < 130:
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.big)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 130 and count < 131:
+                        new_enemy = enemy(enemyType.dragon)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.dragon)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 131 and count < 140:
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.fly)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 140 and count < 141:
+                        new_enemy = enemy(enemyType.unicorn)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                    if count >= 141 and count < 150:
+                        new_enemy = enemy(enemyType.snake)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.snake)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        new_enemy = enemy(enemyType.snake)
+                        defs.enemies.add(new_enemy)
+                        defs.all_sprites.add(new_enemy)
+                        count = 0
+                    count += 1  
 
             # Update enemy position
             for e in defs.enemies:
@@ -289,7 +417,6 @@ while running:
             # Draw all sprites
 
             for entity in defs.all_sprites:
-                defs.screen.blit(entity.surf, entity.rect)
                 defs.screen.blit(entity.get_sprite(), entity.rect)
 
             # Check if any enemies have collided with the player
@@ -299,18 +426,34 @@ while running:
 
             # Update Health
             defs.pygame.font.init()
-            my_font = defs.pygame.font.SysFont('Comic Sans MS', 30)
-            text_surface = my_font.render(str(player.get_health()), False, (0, 0, 0))
-            defs.screen.blit(text_surface, (0,0))
+            my_font = defs.pygame.font.SysFont('Ubuntu Light', 30)
+            text_surface = my_font.render("Health: " + str(player.get_health()), False, (255, 0, 0))
+            defs.screen.blit(text_surface, (10,10))
+            text_surface = my_font.render("Shield: " + str(player.get_shield()), False, (0, 0, 255))
+            defs.screen.blit(text_surface, (10,40))
+            text_surface = my_font.render("Bitcoin: " + str(player.get_exp()) + "/10", False, (0, 255, 0))
+            defs.screen.blit(text_surface, (10,70))
 
             # Check if weapon collides with enemy
-            if defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), defs.enemies):
-                defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), defs.enemies).update_health((player.get_damage() + player.get_add_damage()) * player.get_mult_damage())
-
+            if att_delay == 0:
+                if defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), defs.enemies):
+                    defs.pygame.sprite.spritecollideany(player.get_weapon_hitbox(), defs.enemies).update_health((player.get_damage() + player.get_add_damage()) * player.get_mult_damage())
+                att_delay +=1
+            if att_delay >=1 :
+                att_delay += 1
+                if att_delay >= 20:
+                    att_delay = 0
+            
             # Check if player collides with enemy
-            if defs.pygame.sprite.spritecollideany(player, defs.enemies):
-                defs.pygame.sprite.spritecollideany(player, defs.enemies).kill()
-                player.update_health(1)
+            if hit_delay == 0:    
+                if defs.pygame.sprite.spritecollideany(player, defs.enemies):
+                    defs.pygame.sprite.spritecollideany(player, defs.enemies)
+                    player.update_health(1)
+                hit_delay += 1
+            if hit_delay >= 1:
+                hit_delay += 1
+                if hit_delay >= 120:
+                    hit_delay = 0
 
             # Check for level up
             if level < player.get_level():
@@ -348,11 +491,11 @@ while running:
                             case 1:
                                 player.update_add_damage(1)
                             case 2:
-                                player.set_shield(20)
+                                player.set_shield(5)
                             case 3:
                                 player.update_health(-10)
                             case 4:
-                                player.update_speed(10000)
+                                player.update_speed(1000)
                             case 5:
                                 player_data[8] += 1
                             case 6:
@@ -386,6 +529,8 @@ while running:
                     running = False
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
+                        level = 1
+                        count = 0
                         menu = 0
 
 # Done! Time to quit.

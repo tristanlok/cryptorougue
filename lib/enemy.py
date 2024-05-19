@@ -9,7 +9,11 @@ from lib.powerup import powerup
 class enemyType(Enum):
     monster = 0
     mage = 1
-    # tank = 2
+    fly = 2
+    snake = 3
+    big = 4
+    dragon = 5
+    unicorn = 6
 
 class enemy(pygame.sprite.Sprite):
     def __init__(self, type):
@@ -39,8 +43,8 @@ class enemy(pygame.sprite.Sprite):
                     center = (x, y)
                 )
                 
-                self.__x_speed = 2
-                self.__y_speed = 2
+                self.__x_speed = 1
+                self.__y_speed = 1
                 self.__health = 3
             case enemyType.mage:
                 self.surf = pygame.Surface((100, 100))
@@ -53,27 +57,79 @@ class enemy(pygame.sprite.Sprite):
                 self.__x_speed = 0
                 self.__y_speed = 0
                 self.__health = 1
+            
+            case enemyType.fly:
+                self.surf = pygame.Surface((50, 50))
+                self.surf.fill((0, 0, 0))
+                self.sprite = pygame.image.load("data/enemy/fly.png")
+                self.rect = self.surf.get_rect(
+                    center = (x, y)
+                )
+                
+                self.__x_speed = 2
+                self.__y_speed = 2
+                self.__health = 1
+                
+            case enemyType.snake:
+                self.surf = pygame.Surface((100, 100))
+                self.surf.fill((0, 0, 0))
+                self.sprite = pygame.image.load("data/enemy/snake.png")
+                self.rect = self.surf.get_rect(
+                    center = (x, y)
+                )
+                
+                self.__x_speed = 2
+                self.__y_speed = 1
+                self.__health = 1
+                
+            case enemyType.big:
+                self.surf = pygame.Surface((100, 100))
+                self.surf.fill((0, 0, 0))
+                self.sprite = pygame.image.load("data/enemy/big.png")
+                self.rect = self.surf.get_rect(
+                    center = (x, y)
+                )
+                
+                self.__x_speed = 1
+                self.__y_speed = 1
+                self.__health = 5
+                
+            case enemyType.dragon:
+                self.surf = pygame.Surface((200, 200))
+                self.surf.fill((0, 0, 0))
+                self.sprite = pygame.image.load("data/enemy/dragon.png")
+                self.rect = self.surf.get_rect(
+                    center = (x, y)
+                )
+                
+                self.__x_speed = 2
+                self.__y_speed = 2
+                self.__health = 20
+                
+            case enemyType.unicorn:
+                self.surf = pygame.Surface((200, 200))
+                self.surf.fill((0, 0, 0))
+                self.sprite = pygame.image.load("data/enemy/unicorn.png")
+                self.rect = self.surf.get_rect(
+                    center = (x, y)
+                )
+                
+                self.__x_speed = 4
+                self.__y_speed = 4
+                self.__health = 50
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the left edge of the screen
     def update_pos(self, x, y):
-        match self.type:
-            case enemyType.monster:
-                if x <= self.rect.x:
-                    dx = -1
-                if x > self.rect.x:
-                    dx = 1
-                if y <= self.rect.y:
-                    dy = -1
-                if y > self.rect.y:
-                    dy = 1
-                self.rect.move_ip(dx, dy)
-                if self.rect.right < 0:
-                    self.kill()
-            case enemyType.mage:
-                self.rect.move_ip(self.__x_speed, self.__y_speed)
-                if self.rect.right < 0:
-                    self.kill()
+        if x <= self.rect.x:
+            dx = -1
+        if x > self.rect.x:
+            dx = 1
+        if y <= self.rect.y:
+            dy = -1
+        if y > self.rect.y:
+            dy = 1
+        self.rect.move_ip(dx * self.__x_speed, dy * self.__y_speed)
             
     def update_health(self, amount):
         if amount >= self.__health:
