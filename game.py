@@ -1,11 +1,12 @@
 import pygame
-import math
 
 # Custom Libraries
 from lib.character import Character
 from lib.enemy import enemy, enemyType
 from lib.powerup import powerup, powerupType
 from lib.weapon import Weapon
+
+pygame.init()
 
 # Keybinds
 from pygame.locals import (
@@ -22,8 +23,6 @@ from pygame.locals import (
     KEYUP,
     QUIT,
 )
-
-pygame.init()
 
 # Display
 screen = pygame.display.set_mode([1920, 1080])
@@ -43,7 +42,7 @@ pygame.time.set_timer(ADDENEMY, 250)
 
 # Create a custom event for adding a new enemy
 ADDPOWERUP = pygame.USEREVENT + 1
-pygame.time.set_timer(ADDPOWERUP, 250)
+pygame.time.set_timer(ADDPOWERUP, 1000)
 
 # Sprite Groups
 all_sprites = pygame.sprite.Group()
@@ -68,19 +67,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        
-        # Keydown
-        if event.type == KEYDOWN:
-            # Movement
-            if event.key == K_s:
-                dy = 2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
-            if event.key == K_w:
-                dy = -2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
-            if event.key == K_d:
-                dx = 2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
-            if event.key == K_a:
-                dx = -2 * (player.get_speed() + 0.1 * math.log(player.get_bonus_speed()))
 
+        if event.type == KEYDOWN:
             # Attacking
             if att_delay == 0:
                 if event.key == K_UP:
@@ -95,17 +83,6 @@ while running:
                 elif event.key == K_LEFT:
                     shoot_dir = 4
                     att_delay = 1
-
-        # Keyup    
-        elif event.type == KEYUP:
-            if event.key == K_s and dy > 0:
-                dy = 0
-            if event.key == K_w and dy < 0:
-                dy = 0
-            if event.key == K_d and dx > 0:
-                dx = 0
-            if event.key == K_a and dx < 0:
-                dx = 0
 
         # Add a new enemy
         if event.type == ADDENEMY:
@@ -130,9 +107,8 @@ while running:
         if att_delay >= 240:
             att_delay = 0
 
-    x_pos += dx
-    y_pos += dy      
-    screen.blit(player.surf, (x_pos, y_pos))
+    # Move player based off of keystroke
+    player.Move()
     
     pygame.draw.circle(screen, (0, 0, 255), (500, 500), 75)
 
@@ -146,7 +122,7 @@ while running:
     # Check if any enemies have collided with the player
     if pygame.sprite.spritecollideany(player, powerups):
         # Add collision things here
-        continue
+        pygame.sprite.spritecollideany(player, powerups).kill()
 
     # Flip the display
     pygame.display.flip()

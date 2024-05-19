@@ -1,8 +1,25 @@
 from enum import Enum
 import pygame
+import math
 
 class charType(Enum):
     default = 0
+
+# Keybinds
+from pygame.locals import (
+    K_UP,
+    K_DOWN,
+    K_LEFT,
+    K_RIGHT,
+    K_w,
+    K_a,
+    K_s,
+    K_d,
+    K_ESCAPE,
+    KEYDOWN,
+    KEYUP,
+    QUIT,
+)
 
 class Character(pygame.sprite.Sprite):
     def __init__(self):
@@ -23,7 +40,20 @@ class Character(pygame.sprite.Sprite):
         self.__bonus_speed = 10
         self.__bonus_attspeed = 1
         self.__shield = 0
-        
+
+    def Move(self):
+        # Movement
+        keys = pygame.key.get_pressed()
+            
+        if keys[pygame.K_s]:
+            self.rect.y += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+        if keys[pygame.K_w]:
+            self.rect.y += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+        if keys[pygame.K_d]:
+            self.rect.x += 2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+        if keys[pygame.K_a]:
+            self.rect.x += -2 * (self.get_speed() + 0.1 * math.log(self.get_bonus_speed()))
+
         
     def update_health(amount, self):
         if amount > self.health + self.shield:
